@@ -6,11 +6,11 @@ function App() {
   const [liveOdds, setLiveOdds] = useState(null);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/matches')
+    fetch('https://football-odds-app.onrender.com/api/matches')
       .then(res => res.json())
       .then(data => setMatches(data));
 
-    const ws = new WebSocket('ws://127.0.0.1:8000/ws/odds-updates');
+    const ws = new WebSocket('wss://football-odds-app.onrender.com/ws/odds-updates');
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
       setLiveOdds(data);
