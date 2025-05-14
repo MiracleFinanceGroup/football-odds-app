@@ -47,35 +47,38 @@ export default function FootballOddsApp() {
   };
 
   return (
-    <div className="grid grid-cols-5 h-screen p-4 gap-2 bg-gray-100">
-      <div className="col-span-1 bg-white rounded-xl p-2 overflow-y-auto shadow">
-        <h2 className="text-lg font-bold mb-2">比賽列表</h2>
-        <div className="space-y-2">
+    <div className="grid grid-cols-5 h-screen p-4 gap-4 bg-gradient-to-r from-gray-50 to-gray-100">
+      <div className="col-span-1 bg-white rounded-2xl p-4 overflow-y-auto shadow-md">
+        <h2 className="text-xl font-bold mb-4">比賽列表</h2>
+        <div className="space-y-3">
           {matches.map((match) => (
             <button
               key={match.id}
               onClick={() => handleSelectMatch(match.id)}
-              className={`w-full p-2 border rounded text-left hover:bg-gray-100 ${
-                selectedId === match.id ? "bg-blue-100" : ""
+              className={`w-full p-3 border rounded-lg text-left transition hover:bg-blue-50 ${
+                selectedId === match.id ? "bg-blue-100 border-blue-400" : "border-gray-200"
               }`}
             >
-              {match.league} - {match.home} vs {match.away} {match.time}
+              <span className="block font-semibold">{match.league}</span>
+              <span className="block">{match.home} vs {match.away}</span>
+              <span className="text-sm text-gray-500">{match.time}</span>
             </button>
           ))}
         </div>
       </div>
 
-      <div className="col-span-4 grid grid-rows-[auto_1fr_auto] gap-2">
-        <div className="bg-white rounded-xl p-4 shadow flex flex-wrap gap-4 items-center">
+      <div className="col-span-4 grid grid-rows-[auto_1fr_auto] gap-4">
+        <div className="bg-white rounded-2xl p-6 shadow-md flex flex-wrap gap-6 items-center">
           <span className="font-semibold">博彩公司：</span>
           {['易勝博', '威廉希爾', '立博', '澳門'].map((company) => (
-            <label key={company} className="flex items-center gap-1">
+            <label key={company} className="flex items-center gap-2">
               <input
                 type="checkbox"
                 checked={selectedCompanies.includes(company)}
                 onChange={() => toggleCompany(company)}
+                className="h-4 w-4"
               />
-              {company}
+              <span>{company}</span>
             </label>
           ))}
 
@@ -85,7 +88,7 @@ export default function FootballOddsApp() {
             value={returnRateRange}
             onChange={(e) => setReturnRateRange(e.target.value)}
             placeholder="例如：0.85 - 0.95"
-            className="border rounded p-1"
+            className="border rounded-lg px-2 py-1 w-32"
           />
 
           <span className="font-semibold">初盤範圍：</span>
@@ -94,51 +97,51 @@ export default function FootballOddsApp() {
             value={initialOddsRange}
             onChange={(e) => setInitialOddsRange(e.target.value)}
             placeholder="例如：1.0 - 2.0"
-            className="border rounded p-1"
+            className="border rounded-lg px-2 py-1 w-32"
           />
 
           <button
             onClick={handleQuery}
-            className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700"
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
           >
             查詢
           </button>
         </div>
 
-        <div className="bg-white rounded-xl p-4 shadow overflow-auto">
-          <h2 className="text-lg font-bold mb-2">數據分析</h2>
+        <div className="bg-white rounded-2xl p-6 shadow-md overflow-auto">
+          <h2 className="text-xl font-bold mb-4">數據分析</h2>
           {data.length > 0 ? (
-            <table className="w-full text-sm border">
+            <table className="w-full text-sm border border-gray-200 rounded-md">
               <thead>
-                <tr className="bg-gray-200">
-                  <th className="border p-1">公司</th>
-                  <th className="border p-1">勝</th>
-                  <th className="border p-1">平</th>
-                  <th className="border p-1">負</th>
-                  <th className="border p-1">返還率</th>
+                <tr className="bg-gray-100">
+                  <th className="border border-gray-200 p-2">公司</th>
+                  <th className="border border-gray-200 p-2">勝</th>
+                  <th className="border border-gray-200 p-2">平</th>
+                  <th className="border border-gray-200 p-2">負</th>
+                  <th className="border border-gray-200 p-2">返還率</th>
                 </tr>
               </thead>
               <tbody>
                 {data.map((row, index) => (
-                  <tr key={index}>
-                    <td className="border p-1">{row.company}</td>
-                    <td className="border p-1">{row.win}</td>
-                    <td className="border p-1">{row.draw}</td>
-                    <td className="border p-1">{row.lose}</td>
-                    <td className="border p-1">{row.returnRate}</td>
+                  <tr key={index} className="hover:bg-gray-50">
+                    <td className="border border-gray-200 p-2">{row.company}</td>
+                    <td className="border border-gray-200 p-2">{row.win}</td>
+                    <td className="border border-gray-200 p-2">{row.draw}</td>
+                    <td className="border border-gray-200 p-2">{row.lose}</td>
+                    <td className="border border-gray-200 p-2">{row.returnRate}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           ) : (
-            <p>請先選擇比賽並點擊查詢</p>
+            <p className="text-gray-500">請先選擇比賽並點擊查詢</p>
           )}
         </div>
 
-        <div className="bg-white rounded-xl p-4 shadow">
-          <h2 className="text-lg font-bold mb-2">分析結果</h2>
-          <div>易勝博 + 立博: 主勝</div>
-          <div>威廉希爾 + 澳門: 平局</div>
+        <div className="bg-white rounded-2xl p-6 shadow-md">
+          <h2 className="text-xl font-bold mb-4">分析結果</h2>
+          <div className="text-gray-700">易勝博 + 立博: 主勝</div>
+          <div className="text-gray-700">威廉希爾 + 澳門: 平局</div>
         </div>
       </div>
     </div>
